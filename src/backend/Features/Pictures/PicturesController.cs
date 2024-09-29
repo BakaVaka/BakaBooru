@@ -12,6 +12,12 @@ namespace Server.Features.Pictures;
 [ApiController, Route("api/[controller]")]
 public class PicturesController : ControllerBase {
 
+
+    private static readonly IReadOnlyList<string> _supportedFormats = [
+        ".jpg",
+        ".png",
+        ];
+
     private const string _saveFilesDirrectory = "uploads/pictures";
 
     private readonly ApplicationDbContext _db;
@@ -67,7 +73,6 @@ public class PicturesController : ControllerBase {
         return Ok(response);
     }
 
-
     /// <summary>
     /// Загрузка нового изображения.
     /// </summary>
@@ -77,8 +82,8 @@ public class PicturesController : ControllerBase {
     public async Task<IActionResult> CreatePicture([FromForm] UploadPictureRequest request) {
 
         var ext = new FileInfo(request.File.FileName).Extension;
-        if(IsNotPicture(ext)) {
-            return BadRequest("Only .png and .jpg are supported");
+        if(!IsPicture(ext)) {
+            return BadRequest($"Only \"{string.Join(',', _supportedFormats)}\" are supported now");
         }
 
         using var ms = new MemoryStream();
@@ -149,8 +154,7 @@ public class PicturesController : ControllerBase {
     /// </summary>
     /// <param name="ext">Расширение файла.</param>
     /// <returns>True, если расширение не поддерживается, иначе False.</returns>
-    private Boolean IsNotPicture(String ext){
-        return !string.Equals(ext, ".jpg", StringComparison.InvariantCultureIgnoreCase) 
-            && !string.Equals(ext, ".png", StringComparison.InvariantCultureIgnoreCase);
+    private Boolean IsPicture(String ext) {
+        return _supportedFormats.Contains(ext);
     }
 }

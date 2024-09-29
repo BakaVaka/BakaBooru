@@ -1,30 +1,27 @@
 ﻿namespace Server.Features.Pictures;
 
+/// <summary>
+/// Запрос для загрузки нового файла
+/// </summary>
 public class UploadPictureRequest {
+
+    /// <summary>
+    /// Name
+    /// </summary>
     public string Name { get; set; }
+    
+    /// <summary>
+    /// Description
+    /// </summary>
     public string Description { get; set; }
+    
+    /// <summary>
+    /// List of tags separated by ',' char
+    /// </summary>
     public string? Tags { get; set; }
+
+    /// <summary>
+    /// File to upload
+    /// </summary>
     public IFormFile File { get; set; }
-}
-
-public class ListResponse<T> {
-    /// <summary>
-    /// Number of page
-    /// </summary>
-    public int Page { get; set; }
-
-    /// <summary>
-    /// Total items avaliable
-    /// </summary>
-    public int Total { get; set; }
-
-    /// <summary>
-    /// Total items in response
-    /// </summary>
-    public int Count { get; set; }
-
-    public int? PrevPage { get; set; }
-    public int? NextPage { get; set; }
-    public int LastPage { get; set; }
-    public IEnumerable<T> Data { get; set; }
 }
