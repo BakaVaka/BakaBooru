@@ -1,0 +1,22 @@
+
+services:
+  backend:
+    image: booru/backend
+    hostname: api.booru
+    build:
+      context: ../src/backend
+    networks:
+    - internal-net
+
+  frontend:
+    image: booru/forntend
+    build:
+      context: ../src/frontend
+    ports:
+    - "65000:80"
+    networks:
+    - internal-net
+      
+
+networks:
+  internal-net:
